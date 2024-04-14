@@ -18,6 +18,7 @@ def procesar():
     statistic, label, recomendacion = ScanImageService.image_prediction(imagen)
     
     results = {
+        'code': 200,
         'mensaje': f'Imagen procesada correctamente',
         'data': {
             'porcentaje': statistic,
