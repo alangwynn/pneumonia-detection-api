@@ -20,7 +20,7 @@ class ScanImageService():
         
         if prediction[0] > 0.5:
             statistic = prediction[0] * 100 
-            return statistic, "PNEUMONIA"
+            return statistic, "Paciente con neumonía", "Proceder con los estudios pos análisis"
         else:
             statistic = (1.0 - prediction[0]) * 100
-            return statistic, "NORMAL"
+            return statistic, "Paciente sin neumonía", ""

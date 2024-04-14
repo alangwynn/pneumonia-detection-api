@@ -1,12 +1,10 @@
-from flask import Flask, jsonify, request
-
+from flask import Blueprint, request, jsonify
+from src.utils.Logger import Logger
 import traceback
 
-app = Flask(__name__)
+index_bp = Blueprint('index', __name__)
 
-from src.utils.Logger import Logger
-
-@app.route('/')
+@index_bp.route('/')
 def index():
     try:
         Logger.add_to_log("info", "{} {}".format(request.method, request.path))

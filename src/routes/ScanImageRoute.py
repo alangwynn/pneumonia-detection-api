@@ -1,10 +1,10 @@
-from flask import Flask, request, jsonify
+from flask import Blueprint, request, jsonify
 from src.utils.Logger import Logger
 from src.services.ScanImagenService import ScanImageService
 
-app = Flask(__name__)
+pneumonia_bp = Blueprint('pneumonia', __name__)
 
-@app.route('/procesar', methods=['POST'])
+@pneumonia_bp.route('/procesar', methods=['POST'])
 def procesar():
     Logger.add_to_log("info", "Se ejecuta el endpoint de /procesar")
     Logger.add_to_log("info", "{} {}".format(request.method, request.path))
@@ -15,14 +15,14 @@ def procesar():
     imagen = request.files['imagen']
     numero_documento = request.form['documento']
     
-    statistic, label = ScanImageService.image_prediction(imagen)
+    statistic, label, recomendacion = ScanImageService.image_prediction(imagen)
     
     results = {
         'mensaje': f'Imagen procesada correctamente',
-        'documento': numero_documento,
-        'resultado': {
+        'data': {
             'porcentaje': statistic,
-            'etiqueta': label
+            'mensaje': label,
+            'recomendacion': recomendacion,
         }
     }
     
