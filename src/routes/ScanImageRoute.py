@@ -17,11 +17,14 @@ def procesar():
     
     statistic, label, recomendacion = ScanImageService.image_prediction(imagen)
     
+    statistic_string = "{:.2f}".format(statistic)
+    statistic_string = str(round(statistic, 2))
+
     results = {
         'code': 200,
         'mensaje': f'Imagen procesada correctamente',
         'data': {
-            'porcentaje': statistic,
+            'porcentaje': statistic_string,
             'mensaje': label,
             'recomendacion': recomendacion,
         }
