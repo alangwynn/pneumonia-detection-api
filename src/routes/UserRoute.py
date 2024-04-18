@@ -53,8 +53,34 @@ def getUsuario(id):
 def login():
     Logger.add_to_log("info", "Se ejecuta el endpoint de /login")
     Logger.add_to_log("info", "{} {}".format(request.method, request.path))
-    
+
     data = request.json
-    
+
+    # Verificar si los campos requeridos están presentes en los datos
+    campos_requeridos = ['documento', 'password']
+    for campo in campos_requeridos:
+        if campo not in data:
+            return jsonify({'code': 400, 'mensaje': f'El campo {campo} es requerido'}), 400
+
     documento = data['documento']
     password = data['password']
+
+    # Buscar el usuario en la base de datos por documento y contraseña
+    try:
+        usuario = UsuarioModel.loginUsuario(documento, password)
+        if usuario:
+            return jsonify({'code': 200, 'mensaje': 'Inicio de sesión exitoso', 'data': usuario})
+        else:
+            return jsonify({'code': 401, 'mensaje': 'Documento o contraseña incorrectos'}), 401
+    except Exception as ex:
+        return jsonify({'code': 500, 'message': str(ex)}), 500
+
+@user_bp.route('/eliminar/<int:id>', methods=['DELETE'])
+def eliminar_usuario(id):
+    Logger.add_to_log("info", "Se ejecuta el endpoint de /eliminar")
+    Logger.add_to_log("info", "{} {}".format(request.method, request.path))
+    try:
+        UsuarioModel.eliminarUsuario(id)
+        return jsonify({'code': 200, 'mensaje': 'Usuario eliminado correctamente'}), 200
+    except Exception as ex:
+        return jsonify({'code': 500, 'mensaje': 'Error al eliminar el usuario', 'error': str(ex)}), 500

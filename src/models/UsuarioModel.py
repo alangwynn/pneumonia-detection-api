@@ -55,3 +55,43 @@ class UsuarioModel():
             raise Exception(ex)
         finally:
             conn.close()
+
+    @classmethod
+    def loginUsuario(cls, documento, password):
+        conn = getConnection()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("SELECT * FROM usuario WHERE documento = %s AND password = %s", (documento, password))
+                row = cur.fetchone()
+                
+                if row is not None:
+                    usuario = Usuario(
+                        id=row[0],
+                        createdAt=row[1],
+                        admin=row[2],
+                        email=row[3],
+                        nombre=row[4],
+                        apellido=row[5],
+                        documento=row[6],
+                        password=row[7]
+                    )
+                    return usuario.toJson()
+                else:
+                    return None
+        except Exception as ex:
+            raise Exception(ex)
+        finally:
+            conn.close()
+
+    @classmethod
+    def eliminarUsuario(cls, id):
+        conn = getConnection()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("DELETE FROM usuario WHERE id = %s", (id,))
+                conn.commit()
+        except Exception as ex:
+            conn.rollback()
+            raise ex
+        finally:
+            conn.close()

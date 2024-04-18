@@ -143,3 +143,11 @@
 2024-04-16 22:47:53 | INFO | GET /user/usuario/1
 2024-04-16 22:48:35 | INFO | Se ejecuta el endpoint de /usuario/id
 2024-04-16 22:48:35 | INFO | GET /user/usuario/1
+2024-04-17 20:57:25 | INFO | Se ejecuta el endpoint de /usuario/id
+2024-04-17 20:57:25 | INFO | GET /user/usuario/1
+2024-04-17 21:14:35 | INFO | Se ejecuta el endpoint de /login
+2024-04-17 21:14:35 | INFO | POST /user/login
+2024-04-17 21:14:40 | INFO | Se ejecuta el endpoint de /login
+2024-04-17 21:14:40 | INFO | POST /user/login
+2024-04-17 21:14:45 | INFO | Se ejecuta el endpoint de /login
+2024-04-17 21:14:45 | INFO | POST /user/login
