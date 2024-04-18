@@ -95,3 +95,16 @@ class UsuarioModel():
             raise ex
         finally:
             conn.close()
+    
+    @classmethod
+    def crearUsuario(cls, admin, email, nombre, apellido, documento, password):
+        conn = getConnection()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("INSERT INTO usuario (admin, email, nombre, apellido, documento, password) VALUES (%s, %s, %s, %s, %s, %s)", (admin, email, nombre, apellido, documento, password))
+                conn.commit()
+        except Exception as ex:
+            conn.rollback()
+            raise ex
+        finally:
+            conn.close()

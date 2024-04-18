@@ -4,24 +4,30 @@ from src.utils.Logger import Logger
 
 user_bp = Blueprint('user', __name__)
 
-@user_bp.route('/registrar', methods=['POST'])
-def registrar():
-    Logger.add_to_log("info", "Se ejecuta el endpoint de /registrar")
+@user_bp.route('/crear', methods=['POST'])
+def crear_usuario():
+    Logger.add_to_log("info", "Se ejecuta el endpoint de /crear")
     Logger.add_to_log("info", "{} {}".format(request.method, request.path))
+    try:
+        data = request.json
 
-    data = request.json
+        campos_requeridos = ['email', 'nombre', 'apellido', 'documento', 'password']
+        for campo in campos_requeridos:
+            if campo not in data:
+                return jsonify({'code': 400, 'mensaje': f'El campo {campo} es requerido'}), 400
 
-    campos_requeridos = ['admin', 'email', 'nombre', 'apellido', 'documento', 'password']
-    for campo in campos_requeridos:
-        if campo not in data:
-            return jsonify({'code': 400, 'mensaje': f'El campo {campo} es requerido'}), 400
+        admin = False
+        email = data['email']
+        nombre = data['nombre']
+        apellido = data['apellido']
+        documento = data['documento']
+        password = data['password']
 
-    admin = data['admin']
-    email = data['email']
-    nombre = data['nombre']
-    apellido = data['apellido']
-    documento = data['documento']
-    password = data['password']
+        UsuarioModel.crearUsuario(admin, email, nombre, apellido, documento, password)
+        
+        return jsonify({'code': 200, 'mensaje': 'Usuario creado correctamente'}), 200
+    except Exception as ex:
+        return jsonify({'code': 500, 'mensaje': 'Error al crear el usuario', 'error': str(ex)}), 500
 
 
 @user_bp.route('/usuarios')
