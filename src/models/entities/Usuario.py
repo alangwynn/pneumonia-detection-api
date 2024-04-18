@@ -21,6 +21,5 @@ class Usuario():
             "nombre": self.nombre,
             "apellido": self.apellido,
             "documento": self.documento,
-            "password": self.password
         }
     
