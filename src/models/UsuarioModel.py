@@ -101,6 +101,25 @@ class UsuarioModel():
         conn = getConnection()
         try:
             with conn.cursor() as cur:
+                cur.execute("SELECT * FROM usuario WHERE documento = %s", (documento,))
+                row = cur.fetchone()
+                
+                usuario = None
+                if row != None:
+                    usuario = Usuario(
+                        id=row[0],
+                        createdAt=row[1],
+                        admin=row[2],
+                        email=row[3],
+                        nombre=row[4],
+                        apellido=row[5],
+                        documento=row[6],
+                        password=row[7]
+                    )
+                    if usuario != None:
+                        return usuario.toJson()
+            
+            with conn.cursor() as cur:
                 cur.execute("INSERT INTO usuario (admin, email, nombre, apellido, documento, password) VALUES (%s, %s, %s, %s, %s, %s)", (admin, email, nombre, apellido, documento, password))
                 conn.commit()
         except Exception as ex:

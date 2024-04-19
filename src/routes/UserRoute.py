@@ -23,7 +23,10 @@ def crear_usuario():
         documento = data['documento']
         password = data['password']
 
-        UsuarioModel.crearUsuario(admin, email, nombre, apellido, documento, password)
+        usuario = UsuarioModel.crearUsuario(admin, email, nombre, apellido, documento, password)
+        
+        if usuario != None:
+            return jsonify({'code': 400, 'mensaje': 'Ya existe un usuario con el documento ingresado'}), 400
         
         return jsonify({'code': 200, 'mensaje': 'Usuario creado correctamente'}), 200
     except Exception as ex:
