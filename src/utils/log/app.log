@@ -201,3 +201,23 @@
 2024-04-18 22:54:40 | INFO | POST /user/crear
 2024-04-18 22:54:47 | INFO | Se ejecuta el endpoint de /crear
 2024-04-18 22:54:47 | INFO | POST /user/crear
+2024-04-22 20:57:04 | INFO | Se ejecuta el endpoint de /login-admin
+2024-04-22 20:57:04 | INFO | POST /user/login-admin
+2024-04-22 22:13:24 | INFO | Se ejecuta el endpoint de /usuarios
+2024-04-22 22:13:24 | INFO | GET /user/usuarios
+2024-04-22 22:17:45 | INFO | Se ejecuta el endpoint de /usuarios
+2024-04-22 22:17:45 | INFO | GET /user/usuarios
+2024-04-22 22:19:31 | INFO | Se ejecuta el endpoint de /usuarios
+2024-04-22 22:19:31 | INFO | GET /user/usuarios
+2024-04-22 22:19:40 | INFO | Se ejecuta el endpoint de /usuarios
+2024-04-22 22:19:40 | INFO | GET /user/usuarios
+2024-04-22 22:28:23 | INFO | Se ejecuta el endpoint de /usuarios
+2024-04-22 22:28:23 | INFO | GET /user/usuarios
+2024-04-22 22:29:58 | INFO | Se ejecuta el endpoint de /usuarios
+2024-04-22 22:29:58 | INFO | GET /user/usuarios
+2024-04-22 22:30:35 | INFO | Se ejecuta el endpoint de /usuarios
+2024-04-22 22:30:35 | INFO | GET /user/usuarios
+2024-04-22 22:31:09 | INFO | Se ejecuta el endpoint de /usuarios
+2024-04-22 22:31:09 | INFO | GET /user/usuarios
+2024-04-22 22:31:15 | INFO | Se ejecuta el endpoint de /usuarios
+2024-04-22 22:31:15 | INFO | GET /user/usuarios

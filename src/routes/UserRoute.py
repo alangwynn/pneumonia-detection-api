@@ -33,10 +33,16 @@ def crear_usuario():
         return jsonify({'code': 500, 'mensaje': 'Error al crear el usuario', 'error': str(ex)}), 500
 
 
-@user_bp.route('/usuarios')
+@user_bp.route('/usuarios', methods=['GET'])
 def getUsuarios():
     Logger.add_to_log("info", "Se ejecuta el endpoint de /usuarios")
     Logger.add_to_log("info", "{} {}".format(request.method, request.path))
+    
+    nombre = request.args.get('nombre')
+    apellido = request.args.get('apellido')
+    documento = request.args.get('documento')
+    rol = request.args.get('rol')
+    
     try:
         usuario_model = UsuarioModel()
         usuarios = usuario_model.getUsuarios()
@@ -77,6 +83,32 @@ def login():
     # Buscar el usuario en la base de datos por documento y contraseña
     try:
         usuario = UsuarioModel.loginUsuario(documento, password)
+        if usuario:
+            return jsonify({'code': 200, 'mensaje': 'Inicio de sesión exitoso', 'data': usuario})
+        else:
+            return jsonify({'code': 401, 'mensaje': 'Documento o contraseña incorrectos'}), 401
+    except Exception as ex:
+        return jsonify({'code': 500, 'message': str(ex)}), 500
+    
+@user_bp.route('/login-admin', methods=['POST'])
+def loginAdmin():
+    Logger.add_to_log("info", "Se ejecuta el endpoint de /login-admin")
+    Logger.add_to_log("info", "{} {}".format(request.method, request.path))
+
+    data = request.json
+
+    # Verificar si los campos requeridos están presentes en los datos
+    campos_requeridos = ['documento', 'password']
+    for campo in campos_requeridos:
+        if campo not in data:
+            return jsonify({'code': 400, 'mensaje': f'El campo {campo} es requerido'}), 400
+
+    documento = data['documento']
+    password = data['password']
+
+    # Buscar el usuario en la base de datos por documento y contraseña
+    try:
+        usuario = UsuarioModel.loginUsuarioAdmin(documento, password)
         if usuario:
             return jsonify({'code': 200, 'mensaje': 'Inicio de sesión exitoso', 'data': usuario})
         else:
