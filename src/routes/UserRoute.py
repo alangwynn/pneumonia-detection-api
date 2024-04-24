@@ -45,7 +45,11 @@ def getUsuarios():
     
     try:
         usuario_model = UsuarioModel()
-        usuarios = usuario_model.getUsuarios()
+        if nombre or apellido or documento or rol:
+            usuarios = usuario_model.getUsuariosConFiltros(nombre= nombre, apellido= apellido, documento= documento, rol= rol)
+        else:
+            usuarios = usuario_model.getUsuarios()
+            
         return jsonify({'code': 200, 'mensaje': 'Usuarios obtenidos correctamente', 'data': usuarios})
     except Exception as ex:
         return jsonify({'code': 500, 'message': str(ex)}), 500

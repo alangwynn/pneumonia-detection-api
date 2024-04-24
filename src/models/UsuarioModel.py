@@ -28,6 +28,62 @@ class UsuarioModel():
             raise Exception(ex)
         finally:
             conn.close()
+    
+    @classmethod
+    def getUsuariosConFiltros(cls, nombre=None, apellido=None, documento=None, rol=None):
+        conn = getConnection()
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT * FROM usuario"
+                params = []
+
+                if nombre:
+                    sql += " WHERE LOWER(nombre) = LOWER(%s)"
+                    params.append(nombre.lower())
+                if apellido:
+                    if "WHERE" not in sql:
+                        sql += " WHERE"
+                    else:
+                        sql += " AND"
+                    sql += " LOWER(apellido) = LOWER(%s)"
+                    params.append(apellido.lower())
+                if documento:
+                    if "WHERE" not in sql:
+                        sql += " WHERE"
+                    else:
+                        sql += " AND"
+                    sql += " documento = %s"
+                    params.append(documento)
+                if rol:
+                    if "WHERE" not in sql:
+                        sql += " WHERE"
+                    else:
+                        sql += " AND"
+                    sql += " admin = %s"
+                    params.append(rol)
+                
+                cur.execute(sql, params)
+                
+                rows = cur.fetchall()
+                usuarios = []
+                for row in rows:
+                    usuario = Usuario(
+                        id=row[0],
+                        createdAt=row[1],
+                        admin=row[2],
+                        email=row[3],
+                        nombre=row[4],
+                        apellido=row[5],
+                        documento=row[6],
+                        password=row[7]
+                    )
+                    usuarios.append(usuario.toJson())
+                
+                return usuarios
+        except Exception as ex:
+            raise Exception(ex)
+        finally:
+            conn.close()
             
     @classmethod
     def getUsuario(self, id):
