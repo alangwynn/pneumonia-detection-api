@@ -1,3 +1,5 @@
+from src.database.db import getConnection
+
 class Radiografia():
 
     def __init__(self, id, createdAt, hasPneumonia, documentoPaciente, usuarioId) -> None:
@@ -6,6 +8,27 @@ class Radiografia():
         self.hasPneumonia = hasPneumonia
         self.documentoPaciente = documentoPaciente
         self.usuarioId = usuarioId
+
+    @classmethod
+    def loadRadiography(cls, documento, hasPneumonia, userId):
+        conn = getConnection()
+        try:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "INSERT INTO radiografia (hasneumonia, documentopaciente, userid) VALUES (%s, %s, %s) RETURNING id, createdat",
+                    (hasPneumonia, documento, userId)
+                )
+                row = cur.fetchone()
+                if row:
+                    new_id, created_at = row
+                    new_radiography = Radiografia(new_id, created_at, hasPneumonia, documento, userId)
+                    return new_radiography
+                else:
+                    raise Exception("No se pudo obtener el ID y la fecha de creación del nuevo registro.")
+        except Exception as ex:
+            raise Exception("Error al cargar la radiografía en la base de datos:", ex)
+        finally:
+            conn.close()
 
     def toJson(self):
         return {

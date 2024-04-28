@@ -14,6 +14,7 @@ def procesar():
     
     imagen = request.files['imagen']
     numero_documento = request.form['documento']
+    userId = request.form['userId']
     
     statistic, label, recomendacion = ScanImageService.image_prediction(imagen)
     
