@@ -12,15 +12,20 @@ class Radiografia():
     @classmethod
     def loadRadiography(cls, documento, hasPneumonia, userId):
         conn = getConnection()
+        print(documento)
+        print(hasPneumonia)
+        print(userId)
         try:
             with conn.cursor() as cur:
-                cur.execute(
-                    "INSERT INTO radiografia (hasneumonia, documentopaciente, userid) VALUES (%s, %s, %s) RETURNING id, createdat",
-                    (hasPneumonia, documento, userId)
-                )
+                cur.execute("INSERT INTO radiografia (hasneumonia, documentopaciente, userid) VALUES (%s, %s, %s) RETURNING id, createdat",
+                            (hasPneumonia, documento, userId))
+                conn.commit()
                 row = cur.fetchone()
+                print(row)
                 if row:
                     new_id, created_at = row
+                    print(new_id)
+                    print(created_at)
                     new_radiography = Radiografia(new_id, created_at, hasPneumonia, documento, userId)
                     return new_radiography
                 else:

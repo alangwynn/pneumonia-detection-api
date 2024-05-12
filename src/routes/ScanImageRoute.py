@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from src.utils.Logger import Logger
 from src.services.ScanImagenService import ScanImageService
+from src.models.RadiografiaModel import Radiografia
 
 pneumonia_bp = Blueprint('pneumonia', __name__)
 
@@ -20,6 +21,9 @@ def procesar():
     
     statistic_string = "{:.2f}".format(statistic)
     statistic_string = str(round(statistic, 2))
+    
+    response = Radiografia.loadRadiography(numero_documento, True if label == 'Paciente con neumonía' else False, userId)
+    print(response)
 
     results = {
         'code': 200,
