@@ -117,7 +117,7 @@ class UsuarioModel():
         conn = getConnection()
         try:
             with conn.cursor() as cur:
-                cur.execute("SELECT * FROM usuario WHERE documento = %s AND password = %s", (documento, password))
+                cur.execute("SELECT * FROM public.usuario WHERE documento = %s AND password = %s", (documento, password))
                 row = cur.fetchone()
                 
                 if row is not None:
