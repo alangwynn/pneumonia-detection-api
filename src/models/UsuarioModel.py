@@ -8,7 +8,7 @@ class UsuarioModel():
         conn = getConnection()
         try:
             with conn.cursor() as cur:
-                cur.execute("SELECT * FROM usuario ORDER BY id ASC")
+                cur.execute("SELECT * FROM public.usuario ORDER BY id ASC")
                 rows = cur.fetchall()
                 usuarios = []
                 for row in rows:
@@ -34,7 +34,7 @@ class UsuarioModel():
         conn = getConnection()
         try:
             with conn.cursor() as cur:
-                sql = "SELECT * FROM usuario"
+                sql = "SELECT * FROM public.usuario"
                 params = []
 
                 if nombre:
@@ -90,7 +90,7 @@ class UsuarioModel():
         conn = getConnection()
         try:
             with conn.cursor() as cur:
-                cur.execute("SELECT * FROM usuario WHERE id = %s", (id,))
+                cur.execute("SELECT * FROM public.usuario WHERE id = %s", (id,))
                 row = cur.fetchone()
                 
                 usuario = None
@@ -144,7 +144,7 @@ class UsuarioModel():
         conn = getConnection()
         try:
             with conn.cursor() as cur:
-                cur.execute("SELECT * FROM usuario WHERE documento = %s AND password = %s AND admin = true", (documento, password))
+                cur.execute("SELECT * FROM public.usuario WHERE documento = %s AND password = %s AND admin = true", (documento, password))
                 row = cur.fetchone()
                 
                 if row is not None:
@@ -171,7 +171,7 @@ class UsuarioModel():
         conn = getConnection()
         try:
             with conn.cursor() as cur:
-                cur.execute("DELETE FROM usuario WHERE id = %s", (id,))
+                cur.execute("DELETE FROM public.usuario WHERE id = %s", (id,))
                 conn.commit()
         except Exception as ex:
             conn.rollback()
@@ -184,7 +184,7 @@ class UsuarioModel():
         conn = getConnection()
         try:
             with conn.cursor() as cur:
-                cur.execute("SELECT * FROM usuario WHERE documento = %s", (documento,))
+                cur.execute("SELECT * FROM public.usuario WHERE documento = %s", (documento,))
                 row = cur.fetchone()
                 
                 usuario = None
@@ -203,7 +203,7 @@ class UsuarioModel():
                         return usuario.toJson()
             
             with conn.cursor() as cur:
-                cur.execute("INSERT INTO usuario (admin, email, nombre, apellido, documento, password) VALUES (%s, %s, %s, %s, %s, %s)", (admin, email, nombre, apellido, documento, password))
+                cur.execute("INSERT INTO public.usuario (admin, email, nombre, apellido, documento, password) VALUES (%s, %s, %s, %s, %s, %s)", (admin, email, nombre, apellido, documento, password))
                 conn.commit()
         except Exception as ex:
             conn.rollback()

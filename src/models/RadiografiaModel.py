@@ -17,7 +17,7 @@ class Radiografia():
         print(userId)
         try:
             with conn.cursor() as cur:
-                cur.execute("INSERT INTO radiografia (hasneumonia, documentopaciente, userid) VALUES (%s, %s, %s) RETURNING id, createdat",
+                cur.execute("INSERT INTO public.radiografia (hasneumonia, documentopaciente, userid) VALUES (%s, %s, %s) RETURNING id, createdat",
                             (hasPneumonia, documento, userId))
                 conn.commit()
                 row = cur.fetchone()
